@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 08, 2025 at 12:56 PM
+-- Generation Time: May 09, 2025 at 05:11 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -134,7 +134,6 @@ INSERT INTO `enrollment` (`Enrollment_ID`, `Student_ID`, `Course_ID`, `Enrollmen
 
 CREATE TABLE `evaluation` (
   `Evaluation_ID` int(11) NOT NULL,
-  `Course_ID` varchar(20) NOT NULL,
   `Evaluation_Date` date DEFAULT curdate()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -142,55 +141,8 @@ CREATE TABLE `evaluation` (
 -- Dumping data for table `evaluation`
 --
 
-INSERT INTO `evaluation` (`Evaluation_ID`, `Course_ID`, `Evaluation_Date`) VALUES
-(1, 'CS101', '2023-12-15');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `evaluation_answer`
---
-
-CREATE TABLE `evaluation_answer` (
-  `Answer_ID` int(11) NOT NULL,
-  `Question_ID` int(11) NOT NULL,
-  `Student_ID` varchar(20) NOT NULL,
-  `Answer_Text` text NOT NULL,
-  `Rating` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `evaluation_answer`
---
-
-INSERT INTO `evaluation_answer` (`Answer_ID`, `Question_ID`, `Student_ID`, `Answer_Text`, `Rating`) VALUES
-(1, 1, 'STU001', 'The content was well-structured and comprehensive.', 5),
-(2, 2, 'STU001', 'The teaching methodology was effective.', 4),
-(3, 3, 'STU001', 'Assignments were challenging but fair.', 4),
-(4, 1, 'STU002', 'The content covered all essential topics.', 4),
-(5, 2, 'STU002', 'The teaching methodology was good but could be improved.', 3),
-(6, 3, 'STU002', 'Assignments were relevant to the course.', 4);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `evaluation_question`
---
-
-CREATE TABLE `evaluation_question` (
-  `Question_ID` int(11) NOT NULL,
-  `Evaluation_ID` int(11) NOT NULL,
-  `Question_Text` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `evaluation_question`
---
-
-INSERT INTO `evaluation_question` (`Question_ID`, `Evaluation_ID`, `Question_Text`) VALUES
-(1, 1, 'How would you rate the course content?'),
-(2, 1, 'How effective was the teaching methodology?'),
-(3, 1, 'How would you rate the assignments and quizzes?');
+INSERT INTO `evaluation` (`Evaluation_ID`, `Evaluation_Date`) VALUES
+(1, '2023-12-15');
 
 -- --------------------------------------------------------
 
@@ -552,23 +504,7 @@ ALTER TABLE `enrollment`
 -- Indexes for table `evaluation`
 --
 ALTER TABLE `evaluation`
-  ADD PRIMARY KEY (`Evaluation_ID`),
-  ADD KEY `Course_ID` (`Course_ID`);
-
---
--- Indexes for table `evaluation_answer`
---
-ALTER TABLE `evaluation_answer`
-  ADD PRIMARY KEY (`Answer_ID`),
-  ADD KEY `Question_ID` (`Question_ID`),
-  ADD KEY `Student_ID` (`Student_ID`);
-
---
--- Indexes for table `evaluation_question`
---
-ALTER TABLE `evaluation_question`
-  ADD PRIMARY KEY (`Question_ID`),
-  ADD KEY `Evaluation_ID` (`Evaluation_ID`);
+  ADD PRIMARY KEY (`Evaluation_ID`);
 
 --
 -- Indexes for table `faculty_member`
@@ -646,8 +582,7 @@ ALTER TABLE `submission`
 -- Indexes for table `ta`
 --
 ALTER TABLE `ta`
-  ADD PRIMARY KEY (`TA_ID`),
-  ADD KEY `TA_ID` (`TA_ID`);
+  ADD PRIMARY KEY (`TA_ID`);
 
 --
 -- Indexes for table `ta_course`
@@ -693,18 +628,6 @@ ALTER TABLE `enrollment`
 --
 ALTER TABLE `evaluation`
   MODIFY `Evaluation_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `evaluation_answer`
---
-ALTER TABLE `evaluation_answer`
-  MODIFY `Answer_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT for table `evaluation_question`
---
-ALTER TABLE `evaluation_question`
-  MODIFY `Question_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `fee`
@@ -776,25 +699,6 @@ ALTER TABLE `course`
 ALTER TABLE `enrollment`
   ADD CONSTRAINT `enrollment_ibfk_1` FOREIGN KEY (`Student_ID`) REFERENCES `student` (`Student_ID`),
   ADD CONSTRAINT `enrollment_ibfk_2` FOREIGN KEY (`Course_ID`) REFERENCES `course` (`Course_ID`);
-
---
--- Constraints for table `evaluation`
---
-ALTER TABLE `evaluation`
-  ADD CONSTRAINT `evaluation_ibfk_1` FOREIGN KEY (`Course_ID`) REFERENCES `course` (`Course_ID`);
-
---
--- Constraints for table `evaluation_answer`
---
-ALTER TABLE `evaluation_answer`
-  ADD CONSTRAINT `evaluation_answer_ibfk_1` FOREIGN KEY (`Question_ID`) REFERENCES `evaluation_question` (`Question_ID`),
-  ADD CONSTRAINT `evaluation_answer_ibfk_2` FOREIGN KEY (`Student_ID`) REFERENCES `student` (`Student_ID`);
-
---
--- Constraints for table `evaluation_question`
---
-ALTER TABLE `evaluation_question`
-  ADD CONSTRAINT `evaluation_question_ibfk_1` FOREIGN KEY (`Evaluation_ID`) REFERENCES `evaluation` (`Evaluation_ID`);
 
 --
 -- Constraints for table `grades`

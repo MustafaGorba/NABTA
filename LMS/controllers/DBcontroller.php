@@ -31,5 +31,18 @@ class DBcontroller
             echo "connection is not opened"; 
         }
     }
+    public function select($qry)
+    {
+        $result = $this->connection->query($qry);
+        if(!$result)
+        {
+            echo "Error: " . mysqli_error($this->connection);
+            return false;
+        }
+        else
+        {
+            $result->fetch_assoc()
+        }
+    }
 }
 ?>
